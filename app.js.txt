@@ -63,3 +63,90 @@ function toggleCardSelection(card, imgElement) {
 }
 
 initApp();
+
+let activeDeck = [];
+
+function shuffleDeck(array) {
+  let currentIndex = array.length;
+  while (currentIndex !== 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    // Swap elements
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+document.getElementById('start-game-btn').onclick = () => {
+  // Create a shuffled copy of the selected deck
+  activeDeck = shuffleDeck([...selectedDeck]);
+  
+  // Hide the builder view, show the play view
+  document.getElementById('builder-view').style.display = 'none';
+  document.getElementById('play-view').style.display = 'block';
+};
+
+document.getElementById('draw-scheme-btn').onclick = () => {
+  if (activeDeck.length === 0) {
+    alert("The scheme deck is empty!");
+    return;
+  }
+
+  // Remove and return the last card in the array
+  const drawnCard = activeDeck.pop(); 
+  
+  renderCurrentScheme(drawnCard);
+
+  // Check Scryfall's type_line property for the word "Ongoing"
+  if (drawnCard.type_line.includes("Ongoing")) {
+    renderOngoingScheme(drawnCard);
+  }
+};
+
+function renderCurrentScheme(card) {
+  let displayContainer = document.getElementById('current-scheme-display');
+  
+  // Create the container on the first draw if it doesn't exist
+  if (!displayContainer) {
+    displayContainer = document.createElement('div');
+    displayContainer.id = 'current-scheme-display';
+    const playView = document.getElementById('play-view');
+    const drawBtn = document.getElementById('draw-scheme-btn');
+    playView.insertBefore(displayContainer, drawBtn);
+  }
+
+  displayContainer.innerHTML = `
+    <h3 style="color: white; font-family: sans-serif;">Current Scheme:</h3>
+    <img src="${card.image_uris.normal}" style="width: 300px; display: block; margin-bottom: 20px; border-radius: 4.75% / 3.5%;" />
+  `;
+}
+
+function renderOngoingScheme(card) {
+  const activeContainer = document.getElementById('active-schemes');
+  
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'inline-block';
+  wrapper.style.margin = '10px';
+  wrapper.style.textAlign = 'center';
+  
+  const img = document.createElement('img');
+  img.src = card.image_uris.normal;
+  img.style.width = '200px';
+  img.style.display = 'block';
+  img.style.borderRadius = '4.75% / 3.5%'; // MTG card corner ratio
+  
+  const abandonBtn = document.createElement('button');
+  abandonBtn.textContent = 'Abandon Scheme';
+  abandonBtn.style.marginTop = '10px';
+  abandonBtn.style.cursor = 'pointer';
+  
+  // Clicking abandon destroys the HTML wrapper holding the card
+  abandonBtn.onclick = () => {
+    wrapper.remove();
+  };
+  
+  wrapper.appendChild(img);
+  wrapper.appendChild(abandonBtn);
+  activeContainer.appendChild(wrapper);
+}
+

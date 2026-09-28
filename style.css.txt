@@ -1,0 +1,103 @@
+/* Base Theme */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  text-align: center;
+}
+
+h2 {
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+/* Deckbuilder Grid */
+#card-grid {
+  display: grid;
+  /* Automatically adjusts columns based on screen width */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+#card-grid img {
+  width: 100%;
+  border-radius: 4.75% / 3.5%;
+  /* Transparent border prevents layout jumping when the green JS border is applied */
+  border: 4px solid transparent; 
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+#card-grid img:hover {
+  transform: scale(1.05);
+}
+
+/* Global Buttons */
+button {
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #7f39fb;
+}
+
+button:disabled {
+  background-color: #424242;
+  color: #757575;
+  cursor: not-allowed;
+}
+
+/* Active Game View Elements */
+#active-schemes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  min-height: 250px; /* Keeps the board layout stable even when empty */
+}
+
+#current-scheme-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Specific styling for the Abandon buttons */
+#active-schemes button {
+  background-color: #cf6679;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+}
+
+#active-schemes button:hover {
+  background-color: #ff7597;
+}

@@ -64,7 +64,7 @@ function toggleCardSelection(card, imgElement) {
   } else {
     // Card is already in deck, remove it
     selectedDeck.splice(cardIndex, 1);
-    imgElement.style.border = "none";
+    imgElement.style.border = "4px solid transparent";
   }
 
   // Check if we hit the 10-card minimum to unlock the start button
@@ -72,8 +72,6 @@ function toggleCardSelection(card, imgElement) {
   startBtn.disabled = selectedDeck.length < 10;
   startBtn.textContent = `Start Game (${selectedDeck.length}/10+)`;
 }
-
-initApp();
 
 let activeDeck = [];
 
@@ -187,3 +185,5 @@ function setupSetFilter(schemes) {
     }
   });
 }
+
+initApp();

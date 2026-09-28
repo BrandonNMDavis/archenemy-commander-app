@@ -1,0 +1,65 @@
+const SCRYFALL_API_URL = 'https://api.scryfall.com/cards/search?q=t:scheme';
+
+async function loadSchemes() {
+  const cachedData = localStorage.getItem('archenemy_schemes');
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  try {
+    const response = await fetch(SCRYFALL_API_URL);
+    const data = await response.json();
+    const schemes = data.data; 
+    
+    localStorage.setItem('archenemy_schemes', JSON.stringify(schemes));
+    return schemes;
+  } catch (error) {
+    console.error("Failed to fetch from Scryfall:", error);
+  }
+}
+
+let allSchemes = [];
+let selectedDeck = [];
+
+async function initApp() {
+  allSchemes = await loadSchemes();
+  renderGrid(allSchemes);
+}
+
+function renderGrid(schemes) {
+  const grid = document.getElementById('card-grid');
+  schemes.forEach(card => {
+    const img = document.createElement('img');
+    img.src = card.image_uris.normal; 
+    
+    // Assign an ID and basic styling so we can manipulate it
+    img.id = `card-${card.id}`;
+    img.style.cursor = "pointer";
+    img.style.width = "200px"; // Temporary inline style until we do the CSS
+    
+    img.onclick = () => toggleCardSelection(card, img);
+    grid.appendChild(img);
+  });
+}
+
+// NEW: Handles clicking a card in the builder view
+function toggleCardSelection(card, imgElement) {
+  const cardIndex = selectedDeck.findIndex(c => c.id === card.id);
+  
+  if (cardIndex === -1) {
+    // Card is not in deck, add it
+    selectedDeck.push(card);
+    imgElement.style.border = "4px solid #4CAF50"; // Green border for selected
+  } else {
+    // Card is already in deck, remove it
+    selectedDeck.splice(cardIndex, 1);
+    imgElement.style.border = "none";
+  }
+
+  // Check if we hit the 10-card minimum to unlock the start button
+  const startBtn = document.getElementById('start-game-btn');
+  startBtn.disabled = selectedDeck.length < 10;
+  startBtn.textContent = `Start Game (${selectedDeck.length}/10+)`;
+}
+
+initApp();

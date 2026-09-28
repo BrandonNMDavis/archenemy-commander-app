@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Archenemy Commander</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Deckbuilder View -->
+    <section id="builder-view">
+      <h2>Select Your Schemes (Min 10)</h2>
+      <div id="card-grid"></div>
+      <button id="start-game-btn" disabled>Start Game</button>
+    </section>
+
+    <!-- Active Game View (Hidden Initially) -->
+    <section id="play-view" style="display: none;">
+      <div id="active-schemes"></div>
+      <button id="draw-scheme-btn">Set Scheme in Motion</button>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

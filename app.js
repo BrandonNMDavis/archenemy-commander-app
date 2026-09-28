@@ -28,14 +28,24 @@ async function initApp() {
 
 function renderGrid(schemes) {
   const grid = document.getElementById('card-grid');
+  
+  // NEW: Clear existing cards before rendering the new ones
+  grid.innerHTML = ''; 
+  
   schemes.forEach(card => {
     const img = document.createElement('img');
     img.src = card.image_uris.normal; 
     
-    // Assign an ID and basic styling so we can manipulate it
     img.id = `card-${card.id}`;
     img.style.cursor = "pointer";
-    img.style.width = "200px"; // Temporary inline style until we do the CSS
+    // Remove the inline width="200px" here if you added the CSS file!
+    
+    // Keep the green border if the card is already in the selectedDeck array
+    if (selectedDeck.some(c => c.id === card.id)) {
+      img.style.border = "4px solid #4CAF50";
+    } else {
+      img.style.border = "4px solid transparent";
+    }
     
     img.onclick = () => toggleCardSelection(card, img);
     grid.appendChild(img);

@@ -23,6 +23,7 @@ let selectedDeck = [];
 
 async function initApp() {
   allSchemes = await loadSchemes();
+  setupSetFilter(allSchemes); // NEW: Populate the dropdown
   renderGrid(allSchemes);
 }
 

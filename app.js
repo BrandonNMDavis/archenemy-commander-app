@@ -160,3 +160,29 @@ function renderOngoingScheme(card) {
   activeContainer.appendChild(wrapper);
 }
 
+function setupSetFilter(schemes) {
+  const filter = document.getElementById('set-filter');
+  
+  // Create an array of unique set names
+  const uniqueSets = [...new Set(schemes.map(card => card.set_name))];
+  
+  // Add an option to the dropdown for each unique set
+  uniqueSets.forEach(setName => {
+    const option = document.createElement('option');
+    option.value = setName;
+    option.textContent = setName;
+    filter.appendChild(option);
+  });
+
+  // Listen for changes and re-render the grid
+  filter.addEventListener('change', (e) => {
+    const selectedSet = e.target.value;
+    if (selectedSet === 'all') {
+      renderGrid(schemes);
+    } else {
+      // Filter the array to only include cards from the chosen set
+      const filteredSchemes = schemes.filter(card => card.set_name === selectedSet);
+      renderGrid(filteredSchemes);
+    }
+  });
+}

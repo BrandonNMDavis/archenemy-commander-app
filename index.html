@@ -8,11 +8,20 @@
 <body>
   <div id="app">
     <!-- Deckbuilder View -->
-    <section id="builder-view">
-      <h2>Select Your Schemes (Min 10)</h2>
-      <div id="card-grid"></div>
-      <button id="start-game-btn" disabled>Start Game</button>
-    </section>
+<section id="builder-view">
+  <h2>Select Your Schemes (Min 10)</h2>
+  
+  <!-- NEW: The Set Filter Dropdown -->
+  <div style="margin-bottom: 20px;">
+    <label for="set-filter" style="color: white; margin-right: 10px;">Filter by Set:</label>
+    <select id="set-filter" style="padding: 8px; border-radius: 4px; font-size: 1rem;">
+      <option value="all">All Sets</option>
+    </select>
+  </div>
+
+  <div id="card-grid"></div>
+  <button id="start-game-btn" disabled>Start Game</button>
+</section>
 
     <!-- Active Game View (Hidden Initially) -->
     <section id="play-view" style="display: none;">

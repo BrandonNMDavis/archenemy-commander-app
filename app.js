@@ -221,4 +221,45 @@ window.updateLife = function(index, amount) {
   players[index].life += amount;
   renderLifeTracker();
 };
+
+document.getElementById('reset-game-btn').onclick = () => {
+  // 1. Clear the game board arrays
+  activeDeck = [];
+  selectedDeck = [];
+  
+  // 2. Wipe the HTML board clean
+  const activeContainer = document.getElementById('active-schemes');
+  activeContainer.innerHTML = '';
+  
+  const currentDisplay = document.getElementById('current-scheme-display');
+  if (currentDisplay) {
+    currentDisplay.remove();
+  }
+  
+  // 3. Reset Life Totals to default
+  players = [
+    { name: "Archenemy", life: 60 },
+    { name: "Player 1", life: 40 },
+    { name: "Player 2", life: 40 },
+    { name: "Player 3", life: 40 }
+  ];
+  
+  // 4. Reset the "Start Game" button state
+  const startBtn = document.getElementById('start-game-btn');
+  startBtn.disabled = true;
+  startBtn.textContent = 'Start Game';
+  
+  // 5. Swap the display views back
+  document.getElementById('play-view').style.display = 'none';
+  document.getElementById('builder-view').style.display = 'block';
+  
+  // 6. Force the grid to re-render to remove the green borders
+  const filter = document.getElementById('set-filter');
+  if (filter.value === 'all') {
+    renderGrid(allSchemes);
+  } else {
+    const filteredSchemes = allSchemes.filter(card => card.set_name === filter.value);
+    renderGrid(filteredSchemes);
+  }
+};
 initApp();

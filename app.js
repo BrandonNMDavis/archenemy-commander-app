@@ -97,11 +97,11 @@ document.getElementById('start-game-btn').onclick = () => {
 
 document.getElementById('draw-scheme-btn').onclick = () => {
   if (activeDeck.length === 0) {
-    alert("The scheme deck is empty!");
+    alert("All of your schemes are currently Ongoing on the battlefield!");
     return;
   }
 
-  // Remove and return the last card in the array
+  // Remove and return the last card in the array (Top of the deck)
   const drawnCard = activeDeck.pop(); 
   
   renderCurrentScheme(drawnCard);
@@ -109,6 +109,9 @@ document.getElementById('draw-scheme-btn').onclick = () => {
   // Check Scryfall's type_line property for the word "Ongoing"
   if (drawnCard.type_line.includes("Ongoing")) {
     renderOngoingScheme(drawnCard);
+  } else {
+    // Normal schemes resolve and go immediately to the bottom of the deck
+    activeDeck.unshift(drawnCard);
   }
 };
 
@@ -140,8 +143,9 @@ function renderOngoingScheme(card) {
   abandonBtn.style.marginTop = '10px';
   abandonBtn.style.cursor = 'pointer';
   
-  // Clicking abandon destroys the HTML wrapper holding the card
+  // Clicking abandon returns the card to the bottom of the deck and destroys the HTML
   abandonBtn.onclick = () => {
+    activeDeck.unshift(card);
     wrapper.remove();
   };
   

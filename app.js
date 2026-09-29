@@ -21,6 +21,11 @@ async function loadSchemes() {
 let allSchemes = [];
 let selectedDeck = [];
 
+// NEW: Cards that break the modern shared-life Commander rules
+const problematicSchemes = [
+  "Mortal Flesh Is Weak"
+];
+
 async function initApp() {
   allSchemes = await loadSchemes();
   setupSetFilter(allSchemes); // NEW: Populate the dropdown
@@ -58,9 +63,15 @@ function toggleCardSelection(card, imgElement) {
   const cardIndex = selectedDeck.findIndex(c => c.id === card.id);
   
   if (cardIndex === -1) {
+    // NEW: Warning check for legacy cards
+    if (problematicSchemes.includes(card.name)) {
+      const proceed = confirm(`Warning: Wizards of the Coast noted that "${card.name}" functions weirdly under the new shared life rules. Are you sure you want to add it?`);
+      if (!proceed) return; // If they click Cancel, stop right here and don't add the card
+    }
+    
     // Card is not in deck, add it
     selectedDeck.push(card);
-    imgElement.style.border = "4px solid #4CAF50"; // Green border for selected
+    imgElement.style.border = "4px solid #4CAF50"; 
   } else {
     // Card is already in deck, remove it
     selectedDeck.splice(cardIndex, 1);
@@ -72,7 +83,6 @@ function toggleCardSelection(card, imgElement) {
   startBtn.disabled = selectedDeck.length < 10;
   startBtn.textContent = `Start Game (${selectedDeck.length}/10+)`;
 }
-
 let activeDeck = [];
 
 function shuffleDeck(array) {

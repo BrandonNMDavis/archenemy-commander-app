@@ -87,12 +87,12 @@ function shuffleDeck(array) {
 }
 
 document.getElementById('start-game-btn').onclick = () => {
-  // Create a shuffled copy of the selected deck
   activeDeck = shuffleDeck([...selectedDeck]);
   
-  // Hide the builder view, show the play view
   document.getElementById('builder-view').style.display = 'none';
   document.getElementById('play-view').style.display = 'block';
+  
+  renderLifeTracker(); // NEW: Draw the life totals on the board
 };
 
 document.getElementById('draw-scheme-btn').onclick = () => {
@@ -185,5 +185,40 @@ function setupSetFilter(schemes) {
     }
   });
 }
+// NEW: Life Tracker State 
+let players = [
+  { name: "Archenemy", life: 60 },
+  { name: "Player 1", life: 40 },
+  { name: "Player 2", life: 40 },
+  { name: "Player 3", life: 40 }
+];
 
+function renderLifeTracker() {
+  const container = document.getElementById('life-tracker-container');
+  if (!container) return;
+  
+  container.innerHTML = ''; // Clear before redrawing
+  
+  players.forEach((player, index) => {
+    const playerDiv = document.createElement('div');
+    playerDiv.className = 'player-life-box';
+    
+    playerDiv.innerHTML = `
+      <h4 style="margin: 0 0 10px 0; color: #90caf9;">${player.name}</h4>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+        <button onclick="updateLife(${index}, -1)" style="margin: 0; padding: 5px 15px; background-color: #cf6679;">-</button>
+        <span style="font-size: 1.5rem; font-weight: bold; width: 40px;">${player.life}</span>
+        <button onclick="updateLife(${index}, 1)" style="margin: 0; padding: 5px 15px; background-color: #4CAF50;">+</button>
+      </div>
+    `;
+    container.appendChild(playerDiv);
+  });
+}
+
+// This updates the array and instantly refreshes the UI
+// Attaching it to the window object ensures the inline HTML onclick can find it
+window.updateLife = function(index, amount) {
+  players[index].life += amount;
+  renderLifeTracker();
+};
 initApp();

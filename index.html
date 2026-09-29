@@ -24,17 +24,21 @@
 </section>
 
     <!-- Active Game View (Hidden Initially) -->
-<section id="play-view" style="display: none;">
-  <!-- Multiplayer Life Tracker -->
-  <div id="life-tracker-container"></div>
-  
-  <div id="active-schemes"></div>
-  
-  <div style="margin-top: 20px;">
-    <button id="draw-scheme-btn">Set Scheme in Motion</button>
-    <button id="reset-game-btn" style="background-color: #cf6679; margin-left: 15px;">Reset Game</button>
-  </div>
-</section>
+    <section id="play-view" style="display: none;">
+      
+      <!-- Multiplayer Life Tracker -->
+      <div id="life-tracker-container"></div>
+      
+      <!-- NEW: Permanent Container for Current Scheme -->
+      <div id="current-scheme-display"></div>
+      
+      <div id="active-schemes"></div>
+      
+      <div style="margin-top: 20px;">
+        <button id="draw-scheme-btn">Set Scheme in Motion</button>
+        <button id="reset-game-btn" style="background-color: #cf6679; margin-left: 15px;">Reset Game</button>
+      </div>
+    </section>
   </div>
   <script src="app.js"></script>
 </body>

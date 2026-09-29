@@ -113,20 +113,11 @@ document.getElementById('draw-scheme-btn').onclick = () => {
 };
 
 function renderCurrentScheme(card) {
-  let displayContainer = document.getElementById('current-scheme-display');
+  const displayContainer = document.getElementById('current-scheme-display');
   
-  // Create the container on the first draw if it doesn't exist
-  if (!displayContainer) {
-    displayContainer = document.createElement('div');
-    displayContainer.id = 'current-scheme-display';
-    const playView = document.getElementById('play-view');
-    const drawBtn = document.getElementById('draw-scheme-btn');
-    playView.insertBefore(displayContainer, drawBtn);
-  }
-
   displayContainer.innerHTML = `
     <h3 style="color: white; font-family: sans-serif;">Current Scheme:</h3>
-    <img src="${card.image_uris.normal}" style="width: 300px; display: block; margin-bottom: 20px; border-radius: 4.75% / 3.5%;" />
+    <img src="${card.image_uris.normal}" style="width: 300px; display: block; margin: 0 auto 20px auto; border-radius: 4.75% / 3.5%;" />
   `;
 }
 
@@ -230,9 +221,7 @@ document.getElementById('reset-game-btn').onclick = () => {
   activeContainer.innerHTML = '';
   
   const currentDisplay = document.getElementById('current-scheme-display');
-  if (currentDisplay) {
-    currentDisplay.remove();
-  }
+  currentDisplay.innerHTML = '';
   
   // 3. Reset Life Totals to default
   players = [

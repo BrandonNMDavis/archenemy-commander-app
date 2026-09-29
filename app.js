@@ -187,10 +187,8 @@ function setupSetFilter(schemes) {
 }
 // NEW: Life Tracker State 
 let players = [
-  { name: "Archenemy", life: 60 },
-  { name: "Player 1", life: 40 },
-  { name: "Player 2", life: 40 },
-  { name: "Player 3", life: 40 }
+  { name: "The Archenemy", life: 60 },
+  { name: "The Heroes", life: 60 }
 ];
 
 function renderLifeTracker() {
@@ -238,11 +236,9 @@ document.getElementById('reset-game-btn').onclick = () => {
   
   // 3. Reset Life Totals to default
   players = [
-    { name: "Archenemy", life: 60 },
-    { name: "Player 1", life: 40 },
-    { name: "Player 2", life: 40 },
-    { name: "Player 3", life: 40 }
-  ];
+  { name: "The Archenemy", life: 60 },
+  { name: "The Heroes", life: 60 }
+];
   
   // 4. Reset the "Start Game" button state
   const startBtn = document.getElementById('start-game-btn');

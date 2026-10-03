@@ -261,4 +261,36 @@ document.getElementById('reset-game-btn').onclick = () => {
     renderGrid(filteredSchemes);
   }
 };
+
+document.getElementById('randomize-deck-btn').onclick = () => {
+  // 1. Determine which set we are pulling from based on the dropdown
+  const filter = document.getElementById('set-filter');
+  let availablePool = allSchemes;
+  
+  if (filter.value !== 'all') {
+    availablePool = allSchemes.filter(card => card.set_name === filter.value);
+  }
+  
+  // 2. Filter out legacy cards that break the shared-life rules
+  const safePool = availablePool.filter(card => !problematicSchemes.includes(card.name));
+  
+  // 3. Ensure the selected set actually has enough cards
+  if (safePool.length < 10) {
+    alert("There are not enough safe schemes in this set to generate a valid 10-card deck.");
+    return;
+  }
+  
+  // 4. Shuffle the safe pool and take exactly 10 cards
+  const shuffledPool = shuffleDeck([...safePool]);
+  selectedDeck = shuffledPool.slice(0, 10);
+  
+  // 5. Re-render the grid so the green borders instantly update
+  renderGrid(availablePool);
+  
+  // 6. Unlock the Start Game button
+  const startBtn = document.getElementById('start-game-btn');
+  startBtn.disabled = false;
+  startBtn.textContent = `Start Game (${selectedDeck.length}/10+)`;
+};
+
 initApp();
